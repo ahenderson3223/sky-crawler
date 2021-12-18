@@ -2,10 +2,20 @@
 import requests
 import bs4
 import pandas as pd
+import sys
+import argparse
 
-# use sample url for now and then change to use user input (coordinates and satellite)
+# parse arguments
+parser = argparse.ArgumentParser(
+    description='Outputs satellite data for the given latitude and longitude')
+parser.add_argument("--lat", help="latitude", default="0")
+parser.add_argument("--long",  help="longitude", default="0")
+args = parser.parse_args()
+
 # scrape site
-url = "https://www.heavens-above.com/PassSummary.aspx?satid=25544&lat=43.2484&lng=-75.7749&loc=Unnamed&alt=0&tz=EST"
+# TODO: Allow user to input desired satellite, timezome, and altitude
+url = "https://www.heavens-above.com/PassSummary.aspx?satid=25544&lat=" + \
+    args.lat+"&lng="+args.long+"&loc=Unnamed&alt=0&tz=EST"
 page = requests.get(url)
 soup = bs4.BeautifulSoup(page.content, 'lxml')
 
@@ -24,3 +34,5 @@ for row in rows:
 
 # Display
 print(data)
+
+# TODO: Allow users to request specific information about the satellite rather than/ in addition to just printing a table
