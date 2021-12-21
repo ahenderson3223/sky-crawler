@@ -32,7 +32,7 @@ for row in rows:
         entry.append(td.text)
     data = data.append(pd.DataFrame([entry], columns=columns))
 
-# Display
-print(data)
+# convert to html
+result = data.to_html()
 
 # TODO: Allow users to request specific information about the satellite rather than/ in addition to just printing a table
