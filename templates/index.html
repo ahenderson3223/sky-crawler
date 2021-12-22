@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="sass/style.css";>
+  <link rel="stylesheet" href="static/style.css";>
   <title>SkyCrawler Results </title>
 </head>
 <body>
@@ -22,24 +22,8 @@
     </section>
 
     <section class="resultsTable">
-      <table>
-        <tr>
-          <th>Date</th>
-          <th>Time</th>
-          <th>Duration</th>
-          <th>Temperature</th>
-          <th>Cloud Coverage</th>
-          <th>Visibility Rating</th>
-        </tr>
-        <tr>
-          <td>17 Dec</td>
-          <td>5:30pm</td>
-          <td>30mins</td>
-          <td>30mins</td>
-          <td>30mins</td>
-          <td>30mins</td>
-        </tr>
-      </table>
+      {{data | safe}}
+      
     </section>
 
   </main>
