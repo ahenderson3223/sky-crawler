@@ -19,13 +19,26 @@
 <select name="satelliteDropdown" id="satelliteDropdown">
   <option value="iss">ISS</option>
 </select>
+<form method="POST">
+  <label for="latitude">Latitude:</label>
+  <input type="text" id="latitude" name="latitude">
+  <label for="latitude"> degrees</label><br>
+  <label for="longitude">Longitude:</label>
+  <input type="text" id="longitude" name="longitude">
+  <label for="latitude"> degrees</label><br>
+  <input type="submit" value="Update" onclick="updateTable();"/>
+  </form>
     </section>
 
     <section class="resultsTable">
       {{data | safe}}
-      
     </section>
 
   </main>
+  <script type="text/javascript">
+    function updateTable(){
+      //do something
+    }
+  </script>
 </body>
 </html>

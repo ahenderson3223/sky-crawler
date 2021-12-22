@@ -2,7 +2,6 @@
 import requests
 import bs4
 import pandas as pd
-import sys
 import argparse
 
 
