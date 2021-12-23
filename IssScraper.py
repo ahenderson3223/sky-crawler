@@ -24,26 +24,29 @@ def scrape(lat, long):
     return bs4.BeautifulSoup(page.content, 'lxml')
 
 
-def parse_data(soup, columns):
-    data = pd.DataFrame(columns=columns)
+def parse_data(soup, col_names, indices):
+    data = pd.DataFrame(columns=col_names)
     rows = soup.find_all('tr', attrs={'class': 'clickableRow'})
     # Parse data from page
     for row in rows:
         entry = []
-        for td in row.findAll('td'):
-            entry.append(td.text)
-        data = data.append(pd.DataFrame([entry], columns=columns))
+        row_data = row.findAll('td')
+        for i in indices:
+            entry.append(row_data[i].text)
+        data = data.append(pd.DataFrame([entry], columns=col_names))
 
     # convert to html
     return data.to_html(index=False)
 
 
+# Must specify which columns in heavens above table to grab. The columns are in the following order:
+#"Date", "Brightness", "Start Time", "Start Alt.", "Start Az.", "Hightest Pt. Time", "Hightest Pt. Alt.", "Hightest Pt. Az.", "End Time", "End Alt.", "End Az.", "Pass type"
 def getSatelliteData(lat, long):
     soup = scrape(lat, long)
     # create data frame
-    columns = ("Date", "Brightness", "Start Time", "Start Alt.", "Start Az.", "Hightest Pt. Time",
-               "Hightest Pt. Alt.", "Hightest Pt. Az.", "End Time", "End Alt.", "End Az.", "Pass type")
-    return parse_data(soup, columns)
+    indices = [0, 2, 8]
+    names = ("Date", "Start time", "End time")
+    return parse_data(soup, names, indices)
 
     # TODO: Allow users to request specific information about the satellite rather than/ in addition to just printing a table
 
