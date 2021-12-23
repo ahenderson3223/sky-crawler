@@ -1,16 +1,16 @@
 from flask import Flask, render_template, request
-import IssScraper
+import SatelliteWeatherDataCollector
 
 app = Flask(__name__)
 
 
 @app.route("/")
 def table():
-    return render_template("index.html", data=IssScraper.getSatelliteData("0", "0"))
+    return render_template("index.html", data=SatelliteWeatherDataCollector.getSatelliteData("0", "0"))
 
 
 @app.route("/", methods=["POST"])
 def update_table():
     latitude = request.form["latitude"]
     longitude = request.form["longitude"]
-    return render_template("index.html", data=IssScraper.getSatelliteData(latitude, longitude))
+    return render_template("index.html", data=SatelliteWeatherDataCollector.getData(latitude, longitude))

@@ -1,0 +1,20 @@
+{"data":
+  {"timelines":
+    [
+      {"timestep":"1d","startTime":"2021-12-23T03:00:00Z","endTime":"2022-01-06T03:00:00Z",
+        "intervals":
+        [{"startTime":"2021-12-23T03:00:00Z","values":{"temperature":-22.33,"cloudCover":100,"precipitationIntensity":0,"precipitationType":0}},
+          {"startTime":"2021-12-24T03:00:00Z","values":{"temperature":-22.64,"cloudCover":100,"precipitationIntensity":0,"precipitationType":0}},
+          {"startTime":"2021-12-25T03:00:00Z","values":{"temperature":-23.9,"cloudCover":100,"precipitationIntensity":0,"precipitationType":0}},
+          {"startTime":"2021-12-26T03:00:00Z","values":{"temperature":-24.95,"cloudCover":100,"precipitationIntensity":0,"precipitationType":0}},
+          {"startTime":"2021-12-27T03:00:00Z","values":{"temperature":-20.12,"cloudCover":100,"precipitationIntensity":0.0391,"precipitationType":2}},
+          {"startTime":"2021-12-28T03:00:00Z","values":{"temperature":-18.01,"cloudCover":100,"precipitationIntensity":0.0804,"precipitationType":2}},
+          {"startTime":"2021-12-29T03:00:00Z","values":{"temperature":-17.74,"cloudCover":100,"precipitationIntensity":0.0204,"precipitationType":2}},
+          {"startTime":"2021-12-30T03:00:00Z","values":{"temperature":-17.51,"cloudCover":100,"precipitationIntensity":0.0254,"precipitationType":2}},
+          {"startTime":"2021-12-31T03:00:00Z","values":{"temperature":-20.87,"cloudCover":100,"precipitationIntensity":0.0131,"precipitationType":0}},
+          {"startTime":"2022-01-01T03:00:00Z","values":{"temperature":-22.25,"cloudCover":99.26,"precipitationIntensity":0,"precipitationType":2}},
+          {"startTime":"2022-01-02T03:00:00Z","values":{"temperature":-14.45,"cloudCover":100,"precipitationIntensity":0.0988,"precipitationType":2}},
+          {"startTime":"2022-01-03T03:00:00Z","values":{"temperature":-11.27,"cloudCover":100,"precipitationIntensity":0.0868,"precipitationType":2}},
+          {"startTime":"2022-01-04T03:00:00Z","values":{"temperature":-12.27,"cloudCover":100,"precipitationIntensity":0.1084,"precipitationType":2}},
+          {"startTime":"2022-01-05T03:00:00Z","values":{"temperature":-11.15,"cloudCover":100,"precipitationIntensity":0.0674,"precipitationType":0}},
+          {"startTime":"2022-01-06T03:00:00Z","values":{"temperature":-14.26,"cloudCover":94.62,"precipitationIntensity":0,"precipitationType":0}}]}]}}

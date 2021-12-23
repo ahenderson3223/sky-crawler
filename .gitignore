@@ -1,1 +1,5 @@
 .vscode
+WeatherApiKey.py
+__pycache__/app.cpython-36.pyc
+__pycache__/IssScraper.cpython-36.pyc
+__pycache__/WeatherApiKey.cpython-36.pyc
