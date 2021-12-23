@@ -20,13 +20,15 @@
   <option value="iss">ISS</option>
 </select>
 <form method="POST">
+  <!-- TODO: Stop suggestions for text input and allow using current location-->
   <label for="latitude">Latitude:</label>
   <input type="text" id="latitude" name="latitude">
   <label for="latitude"> degrees</label><br>
   <label for="longitude">Longitude:</label>
   <input type="text" id="longitude" name="longitude">
   <label for="latitude"> degrees</label><br>
-  <input type="submit" value="Update" onclick="updateTable();"/>
+  <input type="submit" value="Use current location" onclick="geolocate(); return false;"/><br>
+  <input type="submit" value="Update"/>
   </form>
     </section>
 
@@ -36,9 +38,19 @@
 
   </main>
   <script type="text/javascript">
-    function updateTable(){
-      //do something
+    function geolocate(){
+            if (!navigator.geolocation) {
+                console.log('Geolocation is not supported by your browser');
+            } else {
+                navigator.geolocation.getCurrentPosition(geoLocateSuccess);
+            }
     }
+    function geoLocateSuccess(pos) {
+            const lat = pos.coords.latitude.toFixed(4);
+            const long = pos.coords.longitude.toFixed(4);
+            document.getElementById("latitude").value = lat;
+            document.getElementById("longitude").value = long;
+         }
   </script>
 </body>
 </html>
