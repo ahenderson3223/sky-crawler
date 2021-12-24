@@ -44,7 +44,7 @@ def parse_data(soup, col_names, indices):
 
 
 # Must specify which columns in heavens above table to grab. The columns are in the following order:
-#"Date", "Brightness", "Start Time", "Start Alt.", "Start Az.", "Hightest Pt. Time", "Hightest Pt. Alt.", "Hightest Pt. Az.", "End Time", "End Alt.", "End Az.", "Pass type"
+# "Date", "Brightness", "Start Time", "Start Alt.", "Start Az.", "Hightest Pt. Time", "Hightest Pt. Alt.", "Hightest Pt. Az.", "End Time", "End Alt.", "End Az.", "Pass type"
 def getSatelliteData(lat, long):
     soup = scrape(lat, long)
     # create data frame
@@ -69,9 +69,28 @@ def getWeatherData(lat, long, test):
     result = pd.DataFrame()
     intervals = data["data"]["timelines"][0]["intervals"]
     for day in intervals:
-        result = result.append(
-            day["values"], ignore_index=True)
-    print(result)
+        day["values"]["weather date"] = day["startTime"]
+        result = result.append(day["values"], ignore_index=True)
+    return result
+
+
+month_end = [0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
+
+
+def mergeData(satData, weatherData):
+    result = satData
+    first_weather_time = weatherData.loc[0, "weather date"]
+    startday = int(first_weather_time[8:10])
+    month = int(first_weather_time[5:7])
+    end_month = month_end[month]
+    concat_weather = pd.DataFrame()
+    for i in range(len(satData)):
+        day = int(satData.loc[i, "Date"][0:2])
+        index = day - startday if (day-startday >
+                                   0) else end_month-startday + day
+        concat_weather = concat_weather.append(weatherData.iloc[index])
+    concat_weather = concat_weather.reset_index(drop=True)
+    result = pd.concat((satData, concat_weather), axis=1)
     return result
 
 
@@ -79,11 +98,7 @@ def getData(lat, long):
     sat_data = getSatelliteData(lat, long)
     sat_data = sat_data.reset_index(drop=True)
     weather_data = getWeatherData(lat, long, test=True)
-    weather_data = weather_data.reset_index(drop=True)
-    result = pd.concat((sat_data, weather_data), axis=1)
-    sat_length = len(sat_data.index)
-    weather_length = len(weather_data.index)
-    result = result.drop(result.index[min(sat_length, weather_length):])
+    result = mergeData(sat_data, weather_data)
     return result.to_html(index=False)
 
 
