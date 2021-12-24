@@ -4,6 +4,7 @@ import bs4
 import pandas as pd
 import argparse
 import WeatherApiKey
+import json
 
 from requests.api import request
 
@@ -54,11 +55,15 @@ def getSatelliteData(lat, long):
     # TODO: Allow users to request specific information about the satellite rather than/ in addition to just printing a table
 
 
-def getWeatherData(lat, long):
-    url = "https://api.tomorrow.io/v4/timelines?location="+long+","+lat + \
-        "&fields=temperature,cloudCover,precipitationIntensity,precipitationType,&timesteps=1d&units=metric&apikey=" + \
-        WeatherApiKey.getApiKey()
-    data = requests.get(url).json()
+def getWeatherData(lat, long, test):
+    if (not test):
+        url = "https://api.tomorrow.io/v4/timelines?location="+long+","+lat + \
+            "&fields=temperature,cloudCover,precipitationIntensity,precipitationType,&timesteps=1d&units=metric&apikey=" + \
+            WeatherApiKey.getApiKey()
+        data = requests.get(url).json()
+    else:
+        file = open("exampleTomorrowResponse.json")
+        data = json.load(file)
     columns = ("Temperature", "Cloud Cover (%)",
                "Precipitation Intensity", "Precipitation Type")
     result = pd.DataFrame()
@@ -66,14 +71,14 @@ def getWeatherData(lat, long):
     for day in intervals:
         result = result.append(
             day["values"], ignore_index=True)
-    #result = result.rename(columns=columns)
+    print(result)
     return result
 
 
 def getData(lat, long):
     sat_data = getSatelliteData(lat, long)
     sat_data = sat_data.reset_index(drop=True)
-    weather_data = getWeatherData(lat, long)
+    weather_data = getWeatherData(lat, long, test=True)
     weather_data = weather_data.reset_index(drop=True)
     result = pd.concat((sat_data, weather_data), axis=1)
     sat_length = len(sat_data.index)
