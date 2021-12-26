@@ -52,8 +52,16 @@ form {
 table {
   width: 100%;
   height: 60%;
-  table-layout: fixed;
   border-collapse: collapse;
+  border: none;
+}
+
+table thead tr {
+  border: 1px solid;
+}
+
+table thead tr th {
+  border: none;
 }
 
 th,
@@ -62,8 +70,16 @@ td {
   text-align: center;
 }
 
-th {
-  border-top: 1px solid;
-  border-bottom: 1px solid;
+table tbody tr td {
+  border: none;
+  border-bottom: 1px solid #dddddd;
+}
+
+table tbody tr:nth-of-type(odd) {
+  background-color: rgb(52, 83, 133);
+}
+
+table tbody tr:last-of-type {
+  border-bottom: 2px solid white;
 }
 /*# sourceMappingURL=style.css.map */

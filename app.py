@@ -6,7 +6,7 @@ app = Flask(__name__)
 
 @app.route("/")
 def table():
-    return render_template("index.html", data=SatelliteWeatherDataCollector.get_satellite_data("0", "0"))
+    return render_template("index.html", data=SatelliteWeatherDataCollector.get_data("0", "0"))
 
 
 @app.route("/", methods=["POST"])
