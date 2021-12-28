@@ -11,7 +11,7 @@
   <main>
 
     <nav class="navbar">
-      <div class="logo">SkyCrawler</div>
+      <div class="logo">S K Y C R A W L E R</div>
     </nav>
 
     <section class="info">
@@ -20,14 +20,16 @@
   <option value="iss">ISS</option>
 </select>
 <form method="POST" autocomplete="off">
-  <label for="latitude">Latitude:</label>
+  <label for="latitude" class="top-label">Latitude:</label><br>
   <input type="text" id="latitude" name="latitude">
-  <label for="latitude"> degrees</label><br>
-  <label for="longitude">Longitude:</label>
+  <label for="latitude">&#176;</label><br>
+
+  <label for="longitude" class="top-label">Longitude:</label><br>
   <input type="text" id="longitude" name="longitude">
-  <label for="latitude"> degrees</label><br>
-  <input type="submit" value="Use current location" onclick="geolocate(); return false;"/><br>
-  <input type="submit" value="Update"/>
+  <label for="longitude">&#176;</label><br>
+  
+  <input type="submit" class = "button-1" value="Use current location" onclick="geolocate(); return false;"/><br>
+  <input type="submit" class = "button-1" value="Update"/>
   </form>
     </section>
 

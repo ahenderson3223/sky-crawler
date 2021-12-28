@@ -8,18 +8,18 @@
 html,
 body {
   font-size: 16px;
-  font-family: "Montserrat", sans-serif;
+  font-family: "Montserrat", helvetica;
   color: #ffffffff;
   width: 100%;
   min-height: 100%;
 }
 
 body {
-  background-color: #0f2954ff;
+  background-color: rgb(27, 27, 27);
 }
 
 section {
-  width: 90%;
+  width: calc(100% - 40px);
   margin: 20px;
   border-radius: 10px;
 }
@@ -38,15 +38,48 @@ form {
   align-items: center;
   -webkit-box-pack: justify;
   -ms-flex-pack: justify;
-  justify-content: space-between;
+  justify-content: center;
   padding: 20px;
   background-color: white;
   color: #fff;
+  align-items: center;
 }
 
 .logo {
   font-size: 32px;
-  color: #0f2954ff;
+  color: rgb(27, 27, 27);
+}
+
+.top-label {
+  display: inline-block;
+  margin-top: 10px;
+}
+
+.button-1 {
+  background-color: white;
+  border-radius: 8px;
+  border-style: none;
+  box-sizing: border-box;
+  color: background-color;
+  cursor: pointer;
+  display: inline-block;
+  font-family: Helvetica;
+  font-size: 14px;
+  font-weight: 500;
+  height: 30px;
+  line-height: 20px;
+  list-style: none;
+  outline: none;
+  padding: 4px;
+  position: relative;
+  text-align: center;
+  text-decoration: none;
+  transition: color 100ms;
+  vertical-align: baseline;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  margin-top: 10px;
 }
 
 table {
@@ -72,14 +105,13 @@ td {
 
 table tbody tr td {
   border: none;
-  border-bottom: 1px solid #dddddd;
+  border-bottom: 1px solid #929292;
 }
 
 table tbody tr:nth-of-type(odd) {
-  background-color: rgb(52, 83, 133);
+  background-color: rgb(36, 36, 36);
 }
 
 table tbody tr:last-of-type {
   border-bottom: 2px solid white;
 }
-/*# sourceMappingURL=style.css.map */
