@@ -80,11 +80,24 @@ def get_satellite_data(lat, long):
     # TODO: Allow users to request specific information about the satellite rather than/ in addition to just printing a table
 
 
+def convert_precip_type(precip_num):
+    if precip_num == 0:
+        return "None"
+    if precip_num == 1:
+        return "Rain"
+    if precip_num == 2:
+        return "Snow"
+    if precip_num == 3:
+        return "Freezing Rain"
+    if precip_num == 4:
+        return "Ice Pellets"
+
+
 def get_weather_data(lat, long, test):
     """
     Collect and return weather information using tomorrow.io API
 
-    Collects data about temperature, cloud cover, preciption intensity,  
+    Collects data about temperature, preciption intensity,  
     and precipitation type for next 15 days
 
     Parameters:
@@ -96,20 +109,26 @@ def get_weather_data(lat, long, test):
     pandas dataframe containing weather data for next 10 days 
     """
     if (not test):
-        url = "https://api.tomorrow.io/v4/timelines?location="+long+","+lat + \
-            "&fields=temperature,cloudCover,precipitationIntensity,precipitationType,&timesteps=1d&units=metric&apikey=" + \
+        url = "https://api.tomorrow.io/v4/timelines?location="+lat+","+long + \
+            "&fields=temperature,precipitationIntensity,precipitationType,&timesteps=1d&units=imperial&apikey=" + \
             WeatherApiKey.getApiKey()
         data = requests.get(url).json()
     else:
         file = open("exampleTomorrowResponse.json")
         data = json.load(file)
-    columns = ("Temperature", "Cloud Cover (%)",
+    columns = ("Temperature",
                "Precipitation Intensity", "Precipitation Type")
     result = pd.DataFrame()
     intervals = data["data"]["timelines"][0]["intervals"]
     for day in intervals:
-        day["values"]["weather date"] = day["startTime"]
+        day["values"]["Weather Date"] = day["startTime"]
+        day["values"]["precipitationType"] = convert_precip_type(
+            day["values"]["precipitationType"])
+        day["values"]["temperature"] = str(day["values"]["temperature"]) + \
+            "\N{DEGREE SIGN}"
         result = result.append(day["values"], ignore_index=True)
+    result = result.rename(columns={
+        "precipitationIntensity": "Precipitation Intensity (in/hr)", "precipitationType": "Precipitation Type", "temperature": "Temperature (\N{DEGREE SIGN}F)"})
     return result
 
 
@@ -124,18 +143,20 @@ def merge_data(sat_data, weather_data):
     concatenate it to that row (prioritize satellite data over weather data).
     """
     result = sat_data
-    first_weather_time = weather_data.loc[0, "weather date"]
+    first_weather_time = weather_data.loc[0, "Weather Date"]
     start_day = int(first_weather_time[8:10])
     month = int(first_weather_time[5:7])
     end_month = month_end[month]
     concat_weather = pd.DataFrame()
     for i in range(len(sat_data)):
         day = int(sat_data.loc[i, "Date"][0:2])
-        index = day - start_day if (day-start_day >
+        index = day - start_day if (day-start_day >=
                                     0) else end_month-start_day + day
         concat_weather = concat_weather.append(weather_data.iloc[index])
     concat_weather = concat_weather.reset_index(drop=True)
     result = pd.concat((sat_data, concat_weather), axis=1)
+    result = result[["Date", "Start time", "End time",
+                     "Temperature (\N{DEGREE SIGN}F)", "Precipitation Type", "Precipitation Intensity (in/hr)"]]
     return result
 
 
