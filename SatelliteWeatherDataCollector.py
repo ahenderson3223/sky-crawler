@@ -113,7 +113,7 @@ def get_weather_data(lat, long, test):
     """
     Collect and return weather information using tomorrow.io API
 
-    Collects data about temperature, preciption intensity,  
+    Collects data about temperature, precipitationProbability, preciption intensity,  
     and precipitation type for next 15 days
 
     Parameters:
@@ -126,14 +126,12 @@ def get_weather_data(lat, long, test):
     """
     if (not test):
         url = "https://api.tomorrow.io/v4/timelines?location="+lat+","+long + \
-            "&fields=temperature,precipitationIntensity,precipitationType,&timesteps=1d&units=imperial&apikey=" + \
+            "&fields=temperature,precipitationProbability,precipitationIntensity,precipitationType,&timesteps=1d&units=imperial&apikey=" + \
             WeatherApiKey.getApiKey()
         data = requests.get(url).json()
     else:
         file = open("exampleTomorrowResponse.json")
         data = json.load(file)
-    columns = ("Temperature",
-               "Precipitation Intensity", "Precipitation Type")
     result = pd.DataFrame()
     intervals = data["data"]["timelines"][0]["intervals"]
     for day in intervals:
@@ -144,7 +142,7 @@ def get_weather_data(lat, long, test):
             "\N{DEGREE SIGN}"
         result = result.append(day["values"], ignore_index=True)
     result = result.rename(columns={
-        "precipitationIntensity": "Precipitation Intensity (in/hr)", "precipitationType": "Precipitation Type", "temperature": "Temperature (\N{DEGREE SIGN}F)"})
+        "precipitationIntensity": "Precipitation Intensity (in/hr)", "precipitationProbability": "Precipitation Probability (%)", "precipitationType": "Precipitation Type", "temperature": "Temperature (\N{DEGREE SIGN}F)"})
     return result
 
 
@@ -160,7 +158,7 @@ def merge_data(sat_data, weather_data):
     """
     result = sat_data
     columns = ["Date", "Start time", "End time",
-               "Temperature (\N{DEGREE SIGN}F)", "Precipitation Type", "Precipitation Intensity (in/hr)"]
+               "Temperature (\N{DEGREE SIGN}F)", "Precipitation Type", "Precipitation Probability (%)", "Precipitation Intensity (in/hr)"]
     if sat_data.empty:
         return pd.DataFrame(columns=columns)
     else:
@@ -190,4 +188,4 @@ def get_data(lat, long, satellite):
 
 
 if __name__ == "__main__":
-    get_data("0", "0", "default")
+    get_data("0", "0", "ISS")
