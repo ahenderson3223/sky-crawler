@@ -85,10 +85,13 @@ def get_satellite_data(lat, long, satellite):
     Returns:
     pandas dataframe containing satellite data for next 10 days
     """
-    soup = scrape(lat, long, satellite)
     indices = [0, 2, 8]
     names = ("Date", "Start time", "End time")
-    return parse_satellite_data(soup, names, indices)
+    if satellite == "default":
+        return pd.DataFrame(columns=names)
+    else:
+        soup = scrape(lat, long, satellite)
+        return parse_satellite_data(soup, names, indices)
 
     # TODO: Allow users to request specific information about the satellite rather than/ in addition to just printing a table
 
@@ -156,21 +159,25 @@ def merge_data(sat_data, weather_data):
     concatenate it to that row (prioritize satellite data over weather data).
     """
     result = sat_data
-    first_weather_time = weather_data.loc[0, "Weather Date"]
-    start_day = int(first_weather_time[8:10])
-    month = int(first_weather_time[5:7])
-    end_month = month_end[month]
-    concat_weather = pd.DataFrame()
-    for i in range(len(sat_data)):
-        day = int(sat_data.loc[i, "Date"][0:2])
-        index = day - start_day if (day-start_day >=
-                                    0) else end_month-start_day + day
-        concat_weather = concat_weather.append(weather_data.iloc[index])
-    concat_weather = concat_weather.reset_index(drop=True)
-    result = pd.concat((sat_data, concat_weather), axis=1)
-    result = result[["Date", "Start time", "End time",
-                     "Temperature (\N{DEGREE SIGN}F)", "Precipitation Type", "Precipitation Intensity (in/hr)"]]
-    return result
+    columns = ["Date", "Start time", "End time",
+               "Temperature (\N{DEGREE SIGN}F)", "Precipitation Type", "Precipitation Intensity (in/hr)"]
+    if sat_data.empty:
+        return pd.DataFrame(columns=columns)
+    else:
+        first_weather_time = weather_data.loc[0, "Weather Date"]
+        start_day = int(first_weather_time[8:10])
+        month = int(first_weather_time[5:7])
+        end_month = month_end[month]
+        concat_weather = pd.DataFrame()
+        for i in range(len(sat_data)):
+            day = int(sat_data.loc[i, "Date"][0:2])
+            index = day - start_day if (day-start_day >=
+                                        0) else end_month-start_day + day
+            concat_weather = concat_weather.append(weather_data.iloc[index])
+        concat_weather = concat_weather.reset_index(drop=True)
+        result = pd.concat((sat_data, concat_weather), axis=1)
+        result = result[columns]
+        return result
 
 
 def get_data(lat, long, satellite):
@@ -183,4 +190,4 @@ def get_data(lat, long, satellite):
 
 
 if __name__ == "__main__":
-    get_data("0", "0", "ISS")
+    get_data("0", "0", "default")
