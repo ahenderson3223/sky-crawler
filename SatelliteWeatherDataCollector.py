@@ -21,7 +21,7 @@ def parse_args():
     return args.lat, args.long
 
 
-def scrape(lat, long):
+def scrape(lat, long, satellite):
     """Scrape html from heavens above ISS result site 
 
     Parameters:
@@ -31,8 +31,21 @@ def scrape(lat, long):
     Returns BeautiulSoup object containing html
     """
     # TODO: Allow user to input desired satellite, timezome, and altitude
-    url = "https://www.heavens-above.com/PassSummary.aspx?satid=25544&lat=" + \
-        lat+"&lng="+long+"&loc=Unnamed&alt=0&tz=EST"
+    sat_id = "25544"
+    if (satellite == "ISS"):
+        sat_id = "25544"
+    elif (satellite == "Tiangong"):
+        sat_id = "48274"
+    elif (satellite == "X-37B"):
+        sat_id = "45606"
+    elif (satellite == "N. Korean satellite"):
+        sat_id = "39026"
+    elif (satellite == "Hubble Space Telescope"):
+        sat_id = "20580"
+    elif (satellite == "Envisat"):
+        sat_id = "27386"
+    url = "https://www.heavens-above.com/PassSummary.aspx?satid="+sat_id+"&lat=" + \
+        lat+"&lng="+long+"&loc=Unnamed&alt=0&tz=UCT"
     page = requests.get(url)
     return bs4.BeautifulSoup(page.content, 'lxml')
 
@@ -59,7 +72,7 @@ def parse_satellite_data(soup, col_names, indices):
     return data
 
 
-def get_satellite_data(lat, long):
+def get_satellite_data(lat, long, satellite):
     """
     Collect and return satellite data from heavens above
 
@@ -72,7 +85,7 @@ def get_satellite_data(lat, long):
     Returns:
     pandas dataframe containing satellite data for next 10 days
     """
-    soup = scrape(lat, long)
+    soup = scrape(lat, long, satellite)
     indices = [0, 2, 8]
     names = ("Date", "Start time", "End time")
     return parse_satellite_data(soup, names, indices)
@@ -160,9 +173,9 @@ def merge_data(sat_data, weather_data):
     return result
 
 
-def get_data(lat, long):
+def get_data(lat, long, satellite):
     """Fetch satellite and weather data and return html table of results."""
-    sat_data = get_satellite_data(lat, long)
+    sat_data = get_satellite_data(lat, long, satellite)
     sat_data = sat_data.reset_index(drop=True)
     weather_data = get_weather_data(lat, long, test=True)
     result = merge_data(sat_data, weather_data)
@@ -170,4 +183,4 @@ def get_data(lat, long):
 
 
 if __name__ == "__main__":
-    get_data("41", "-74")
+    get_data("0", "0", "ISS")

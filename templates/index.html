@@ -16,10 +16,17 @@
 
     <section class="info">
       <label for="satelliteDropdown">Satellite:</label>
-<select name="satelliteDropdown" id="satelliteDropdown">
-  <option value="iss">ISS</option>
-</select>
+
 <form method="POST" autocomplete="off">
+  <select name="satelliteDropdown" id="satelliteDropdown">
+    <option value="ISS">--Choose a satellite--</option> 
+    <option value="ISS">ISS</option>
+    <option value="Tiangong">Tiangong</option>
+    <option value="X-37B">X-37B</option>
+    <option value="N. Korean satellite">N. Korean satellite</option>
+    <option value="Hubble Space Telescope">Hubble Space Telescope</option>
+    <option value="Envisat">Envisat</option>
+  </select><br>
   <label for="latitude" class="top-label">Latitude:</label><br>
   <input type="text" id="latitude" name="latitude">
   <label for="latitude">&#176;</label><br>
