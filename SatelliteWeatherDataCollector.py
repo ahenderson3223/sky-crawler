@@ -85,8 +85,8 @@ def get_satellite_data(lat, long, satellite):
     Returns:
     pandas dataframe containing satellite data for next 10 days
     """
-    indices = [0, 2, 8]
-    names = ("Date", "Start time", "End time")
+    indices = [0, 1, 2, 8]
+    names = ("Date", "Brightness", "Start time", "End time")
     if satellite == "default":
         return pd.DataFrame(columns=names)
     else:
@@ -157,7 +157,7 @@ def merge_data(sat_data, weather_data):
     concatenate it to that row (prioritize satellite data over weather data).
     """
     result = sat_data
-    columns = ["Date", "Start time", "End time",
+    columns = ["Date", "Brightness", "Start time", "End time",
                "Temperature (\N{DEGREE SIGN}F)", "Precipitation Type", "Precipitation Probability (%)", "Precipitation Intensity (in/hr)"]
     if sat_data.empty:
         return pd.DataFrame(columns=columns)
@@ -182,7 +182,7 @@ def get_data(lat, long, satellite):
     """Fetch satellite and weather data and return html table of results."""
     sat_data = get_satellite_data(lat, long, satellite)
     sat_data = sat_data.reset_index(drop=True)
-    weather_data = get_weather_data(lat, long, test=True)
+    weather_data = get_weather_data(lat, long, test=False)
     result = merge_data(sat_data, weather_data)
     return result.to_html(index=False)
 
