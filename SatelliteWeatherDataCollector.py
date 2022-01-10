@@ -182,7 +182,7 @@ def get_data(lat, long, satellite):
     """Fetch satellite and weather data and return html table of results."""
     sat_data = get_satellite_data(lat, long, satellite)
     sat_data = sat_data.reset_index(drop=True)
-    weather_data = get_weather_data(lat, long, test=False)
+    weather_data = get_weather_data(lat, long, test=True)
     result = merge_data(sat_data, weather_data)
     return result.to_html(index=False)
 
