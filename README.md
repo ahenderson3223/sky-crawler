@@ -4,7 +4,7 @@ A webapp to help satellite observers by displaying satellite and weather forecas
 
 This project allows satellite observers to access information about when a satellite can be viewed at their location over the next 10 days. It also provides weather location so observers can determine which passes will be visible.
 
-The inspiration for this project comes from my own experience viewing satellites. Instead of cross-referencing satellite pass information with weather information, I wanted to create a single source for planning satellite viewings. I also wanted to gain more experience with sending API requests and with web development.
+The inspiration for this project comes from my own experience viewing satellites. Instead of referencing two different sites for satellite pass information and weather information, I wanted to create a single source for planning satellite viewings. I also wanted to gain more experience with sending API requests and with web development.
 
 # Project Status
 
