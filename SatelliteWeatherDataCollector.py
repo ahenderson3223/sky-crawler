@@ -30,7 +30,7 @@ def scrape(lat, long, satellite):
 
     Returns BeautiulSoup object containing html
     """
-    # TODO: Allow user to input desired satellite, timezome, and altitude
+    # TODO: Allow user to input timezome and altitude
     sat_id = "25544"
     if (satellite == "ISS"):
         sat_id = "25544"
@@ -93,7 +93,7 @@ def get_satellite_data(lat, long, satellite):
         soup = scrape(lat, long, satellite)
         return parse_satellite_data(soup, names, indices)
 
-    # TODO: Allow users to request specific information about the satellite rather than/ in addition to just printing a table
+    # TODO: Display specific information about the satellite rather than/ in addition to pass time and brightness
 
 
 def convert_precip_type(precip_num):
